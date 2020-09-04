@@ -1,0 +1,40 @@
+{
+  "data": {
+    "allSites": {
+      "totalLicenses": "integer",
+      "activeLicenses": "integer"
+    },
+    "sites": [
+      {
+        "isDefault": "boolean",
+        "name": "My Site",
+        "totalLicenses": "integer",
+        "suite": "Core",
+        "registrationToken": "eyJ1cmwiOiAiaHR0cHM6Ly9jb25zb2xlLnNlbnRpbmVsb25lLm5ldCIsICJzaXRlX2tleSI6ICIwNzhkYjliMWUyOTA1Y2NhIn0=",
+        "state": "active",
+        "unlimitedExpiration": "boolean",
+        "activeLicenses": 31,
+        "id": "182483948009279260",
+        "externalId": "string",
+        "siteType": "string",
+        "updatedAt": "2018-02-27T04:49:26.257525Z",
+        "creatorId": "225494730938493804",
+        "expiration": "2018-02-27T04:49:26.257525Z",
+        "healthStatus": "boolean",
+        "accountId": "225494730938493804",
+        "accountName": "SentinelOne",
+        "creator": "string",
+        "unlimitedLicenses": "boolean",
+        "createdAt": "2018-02-27T04:49:26.257525Z",
+        "sku": "Core"
+      }
+    ]
+  },
+  "pagination": {
+    "nextCursor": "",
+    "totalItems": 580
+  },
+  "errors": [
+    {}
+  ]
+}
