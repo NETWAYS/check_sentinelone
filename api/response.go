@@ -126,6 +126,7 @@ func (c *Client) GetJSONItems(request *http.Request) (items []json.RawMessage, e
 			// Fall back to adding response.Data to the item list
 			// This is useful when data is not an array, but an object
 			err = nil
+
 			items = append(items, response.Data)
 		} else {
 			// append each item to overall list
