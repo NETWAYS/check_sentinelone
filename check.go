@@ -110,6 +110,12 @@ func (c *Config) Run() (rc int, output string, err error) {
 	// Add summary on top
 	output = fmt.Sprintf("%d threats found, %d not mitigated\n", total, notMitigated) + output
 
+	// Add perfdata
+	output += "|"
+	output += fmt.Sprintf(" threats=%d", total)
+	output += fmt.Sprintf(" threats_not_mitigated=%d", notMitigated)
+
+	// determine final state
 	if notMitigated > 0 {
 		rc = check.Critical
 	} else if total > 0 {
