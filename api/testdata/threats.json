@@ -1,0 +1,189 @@
+{
+  "data": [
+    {
+      "containerInfo": {
+        "labels": [
+          {}
+        ],
+        "name": "string",
+        "id": "string",
+        "image": "string"
+      },
+      "indicators": [
+        {
+          "ids": [
+            {}
+          ],
+          "tactics": [
+            {
+              "source": "string",
+              "name": "string",
+              "techniques": [
+                {
+                  "name": "string",
+                  "link": "string"
+                }
+              ]
+            }
+          ],
+          "categoryId": "integer",
+          "description": "string",
+          "category": "string"
+        }
+      ],
+      "whiteningOptions": [
+        {}
+      ],
+      "mitigationStatus": [
+        {
+          "latestReport": "string",
+          "groupNotFound": "boolean",
+          "action": "kill",
+          "status": "success",
+          "lastUpdate": "2018-02-27T04:49:26.257525Z",
+          "actionsCounters": {
+            "total": "integer",
+            "success": "integer",
+            "failed": "integer",
+            "pendingReboot": "integer"
+          }
+        }
+      ],
+      "agentRealtimeInfo": {
+        "siteId": "225494730938493804",
+        "agentMitigationMode": "detect",
+        "agentOsType": "macos",
+        "activeThreats": "integer",
+        "scanFinishedAt": "2018-02-27T04:49:26.257525Z",
+        "scanAbortedAt": "2018-02-27T04:49:26.257525Z",
+        "networkInterfaces": [
+          {
+            "inet6": [
+              {}
+            ],
+            "name": "string",
+            "id": "225494730938493804",
+            "physical": "00:25:96:FF:FE:12:34:56",
+            "inet": [
+              {}
+            ]
+          }
+        ],
+        "siteName": "string",
+        "scanStartedAt": "2018-02-27T04:49:26.257525Z",
+        "operationalState": "string",
+        "agentId": "225494730938493804",
+        "agentUuid": "string",
+        "agentIsActive": "boolean",
+        "agentNetworkStatus": "connected",
+        "groupName": "string",
+        "userActionsNeeded": [
+          {}
+        ],
+        "rebootRequired": "boolean",
+        "groupId": "225494730938493804",
+        "agentDecommissionedAt": "boolean",
+        "accountId": "225494730938493804",
+        "accountName": "string",
+        "agentIsDecommissioned": "boolean",
+        "agentVersion": "3.6.1.14",
+        "agentComputerName": "string",
+        "agentDomain": "string",
+        "agentOsName": "string",
+        "agentOsRevision": "string",
+        "agentInfected": "boolean",
+        "agentMachineType": "unknown",
+        "scanStatus": "none"
+      },
+      "kubernetesInfo": {
+        "pod": "string",
+        "node": "string",
+        "controllerLabels": [
+          {}
+        ],
+        "cluster": "string",
+        "namespaceLabels": [
+          {}
+        ],
+        "controllerName": "string",
+        "controllerKind": "string",
+        "namespace": "string",
+        "podLabels": [
+          {}
+        ]
+      },
+      "threatInfo": {
+        "collectionId": "225494730938493804",
+        "sha256": "50d858e0985ecc7f60418aaf0cc5ab587f42c2570a884095a9e8ccacd0f6545c",
+        "classificationSource": "Cloud",
+        "externalTicketId": "string",
+        "fileVerificationType": "string",
+        "failedActions": "boolean",
+        "confidenceLevel": "malicious",
+        "threatId": "225494730938493804",
+        "fileSize": "integer",
+        "maliciousProcessArguments": "string",
+        "pendingActions": "boolean",
+        "fileExtension": "string",
+        "originatorProcess": "string",
+        "isValidCertificate": "boolean",
+        "initiatingUsername": "string",
+        "threatName": "string",
+        "mitigatedPreemptively": "boolean",
+        "browserType": "string",
+        "certificateId": "string",
+        "automaticallyResolved": "boolean",
+        "processUser": "string",
+        "initiatingUserId": "225494730938493804",
+        "mitigationStatus": "not_mitigated",
+        "incidentStatus": "unresolved",
+        "updatedAt": "2018-02-27T04:49:26.257525Z",
+        "publisherName": "string",
+        "detectionType": "static",
+        "reachedEventsLimit": "boolean",
+        "identifiedAt": "2018-02-27T04:49:26.257525Z",
+        "rebootRequired": "boolean",
+        "fileExtensionType": "string",
+        "md5": "string",
+        "sha1": "ddd5030a3d029f3845fc1052419829f08f312240",
+        "cloudFilesHashVerdict": "string",
+        "classification": "string",
+        "analystVerdict": "undefined",
+        "storyline": "a00637fa-e18d-9b80-e803-f370524f8085",
+        "initiatedBy": "agent_policy",
+        "createdAt": "2018-02-27T04:49:26.257525Z",
+        "engines": [
+          "reputation",
+          "pre_execution"
+        ]
+      },
+      "agentDetectionInfo": {
+        "accountId": "225494730938493804",
+        "agentVersion": "3.6.1.14",
+        "siteId": "225494730938493804",
+        "agentLastLoggedInUserName": "janedoe3",
+        "agentMitigationMode": "detect",
+        "agentUuid": "string",
+        "agentDomain": "mybusiness.net",
+        "agentOsName": "string",
+        "agentIpV6": "string",
+        "agentOsRevision": "string",
+        "agentRegisteredAt": "2018-02-27T04:49:26.257525Z",
+        "agentIpV4": "string",
+        "groupId": "225494730938493804",
+        "accountName": "string",
+        "groupName": "string",
+        "siteName": "string",
+        "externalIp": "string"
+      },
+      "id": "225494730938493804"
+    }
+  ],
+  "pagination": {
+    "nextCursor": "",
+    "totalItems": 580
+  },
+  "errors": [
+    {}
+  ]
+}

@@ -1,0 +1,19 @@
+run:
+  deadline: 1m
+
+linters:
+  disable-all: false
+  enable:
+    #- funlen
+    - dogsled
+    - dupl
+    - lll
+    - whitespace
+    - wsl
+  disable:
+    - noctx
+  presets:
+    - bugs
+    - unused
+    # - style
+  fast: false
