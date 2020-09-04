@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/NETWAYS/check_sentinelone/api"
 	"github.com/NETWAYS/go-check"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"net/url"
 	"os"
@@ -14,13 +15,17 @@ type Config struct {
 	ManagementURL    string
 	AuthToken        string
 	IgnoreInProgress bool
+	SiteName         string
 }
 
 func BuildConfigFlags(fs *pflag.FlagSet) (config *Config) {
 	config = &Config{}
 
-	fs.StringVarP(&config.ManagementURL, "url", "H", "", "Management URL (env:SENTINELONE_URL)")
+	fs.StringVarP(&config.ManagementURL, "url", "H", "",
+		"Management URL (e.g. https://your-site.sentinelone.net) (env:SENTINELONE_URL)")
 	fs.StringVarP(&config.AuthToken, "token", "T", "", "API AuthToken (env:SENTINELONE_TOKEN)")
+
+	fs.StringVar(&config.SiteName, "site", "", "Only list threats belonging to a named site")
 
 	fs.BoolVar(&config.IgnoreInProgress, "ignore-in-progress", false,
 		"Ignore threats, where the incident status is in-progress")
@@ -59,6 +64,17 @@ func (c *Config) Run() (rc int, output string, err error) {
 		values.Set("incidentStatuses", "unresolved")
 	} else {
 		values.Set("resolved", "false")
+	}
+
+	if c.SiteName != "" {
+		var siteId string
+
+		siteId, err = lookupSiteId(client, c.SiteName)
+		if err != nil {
+			return
+		}
+
+		values.Set("siteIds", siteId)
 	}
 
 	threats, err := client.GetThreats(values)
@@ -116,6 +132,9 @@ func (c *Config) Run() (rc int, output string, err error) {
 
 	// Add summary on top
 	output = fmt.Sprintf("%d threats found, %d not mitigated\n", total, notMitigated) + output
+	if c.SiteName != "" {
+		output = fmt.Sprintf("site %s - ", c.SiteName) + output
+	}
 
 	// Add perfdata
 	output += "|"
@@ -127,6 +146,28 @@ func (c *Config) Run() (rc int, output string, err error) {
 		rc = check.Critical
 	} else if total > 0 {
 		rc = check.Warning
+	}
+
+	return
+}
+
+func lookupSiteId(client *api.Client, name string) (id string, err error) {
+	params := url.Values{}
+	params.Set("name", name)
+
+	sites, err := client.GetSites(params)
+	if err != nil {
+		return
+	}
+
+	switch len(sites) {
+	case 0:
+		err = fmt.Errorf("could not find a site named '%s'", name)
+	case 1:
+		id = sites[0].ID
+		log.WithField("id", id).Debug("found site")
+	default:
+		err = fmt.Errorf("more than one site matches '%s'", name)
 	}
 
 	return
