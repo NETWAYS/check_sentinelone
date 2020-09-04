@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"net/url"
 	"time"
 )
 
@@ -22,24 +23,24 @@ type AgentRealtimeInfo struct {
 }
 
 type ThreatInfo struct {
-	ThreatName                string    `json:"threatName"`
-	Classification            string    `json:"classification"`
-	ClassificationSource      string    `json:"classificationSource"`
-	CreatedAt                 time.Time `json:"createdAt"`
-	Engines                   []string  `json:"engines"`
-	AnalystVerdict            string    `json:"analystVerdict"`
-	AnalystVerdictDescription string    `json:"analystVerdictDescription"`
-	IncidentStatus            string    `json:"incidentStatus"`
-	IncidentStatusDescription string    `json:"incidentStatusDescription"`
+	ThreatName                  string    `json:"threatName"`
+	Classification              string    `json:"classification"`
+	ClassificationSource        string    `json:"classificationSource"`
+	CreatedAt                   time.Time `json:"createdAt"`
+	Engines                     []string  `json:"engines"`
+	AnalystVerdict              string    `json:"analystVerdict"`
+	AnalystVerdictDescription   string    `json:"analystVerdictDescription"`
+	IncidentStatus              string    `json:"incidentStatus"`
+	IncidentStatusDescription   string    `json:"incidentStatusDescription"`
+	MitigationStatus            string    `json:"mitigationStatus"`
+	MitigationStatusDescription string    `json:"mitigationStatusDescription"`
 }
 
-func (c *Client) GetThreats() (threats []*Threat, err error) {
-	req, err := c.NewRequest("GET", "v2.1/threats", nil)
+func (c *Client) GetThreats(values url.Values) (threats []*Threat, err error) {
+	req, err := c.NewRequest("GET", "v2.1/threats?"+values.Encode(), nil)
 	if err != nil {
 		return
 	}
-
-	// TODO: Filter, also by state
 
 	res, err := c.GetJSONItems(req)
 	if err != nil {

@@ -5,6 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"testing"
 )
 
@@ -20,7 +21,7 @@ func TestClient_GetThreats(t *testing.T) {
 			return httpmock.NewBytesResponse(200, data), nil
 		})
 
-	threats, err := c.GetThreats()
+	threats, err := c.GetThreats(url.Values{})
 	assert.NoError(t, err)
 	assert.Len(t, threats, 1)
 }
@@ -28,7 +29,7 @@ func TestClient_GetThreats(t *testing.T) {
 func TestClient_GetThreats_Integration(t *testing.T) {
 	c := envClient(t)
 
-	threats, err := c.GetThreats()
+	threats, err := c.GetThreats(url.Values{})
 	assert.NoError(t, err)
 	assert.NotNil(t, threats)
 }
