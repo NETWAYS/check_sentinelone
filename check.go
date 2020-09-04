@@ -91,14 +91,21 @@ func (c *Config) Run() (rc int, output string, err error) {
 		output += fmt.Sprintf("\n## %s\n\n", index)
 
 		for _, threat := range list {
+			var stateText string
+
 			total++
 
 			if threat.ThreatInfo.MitigationStatus == "not_mitigated" {
 				notMitigated++
+
+				stateText = "CRITICAL"
+			} else {
+				stateText = "WARNING"
 			}
 
-			output += fmt.Sprintf("[%s] %s: (%s) %s (%s)\n",
+			output += fmt.Sprintf("[%s] [%s] %s: (%s) %s (%s)\n",
 				threat.ThreatInfo.CreatedAt.Local().Format("2006-01-02 15:04 MST"),
+				stateText,
 				threat.AgentRealtimeInfo.AgentComputerName,
 				threat.ThreatInfo.Classification,
 				threat.ThreatInfo.ThreatName,
