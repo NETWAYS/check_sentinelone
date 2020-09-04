@@ -22,6 +22,9 @@ func BuildConfigFlags(fs *pflag.FlagSet) (config *Config) {
 	fs.StringVarP(&config.ManagementURL, "url", "H", "", "Management URL (env:SENTINELONE_URL)")
 	fs.StringVarP(&config.AuthToken, "token", "T", "", "API AuthToken (env:SENTINELONE_TOKEN)")
 
+	fs.BoolVar(&config.IgnoreInProgress, "ignore-in-progress", false,
+		"Ignore threats, where the incident status is in-progress")
+
 	return
 }
 
