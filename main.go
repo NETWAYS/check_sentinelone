@@ -6,6 +6,12 @@ import (
 
 const readme = `Check for threats on the SentinelOne Cloud service.
 
+You need to provide the URL of your instance and an authentication token, which is user specific.
+It is recommended to create a new user with "Viewer" permissions only.
+
+Threats will be listed until their incident state has been resolved, or with the
+--ignore-in-progress flag, is no longer "unresolved". Mitigated threats appear as warning.
+
 https://github.com/NETWAYS/check_sentinelone
 
 Copyright (c) 2020 NETWAYS GmbH <info@netways.de>
