@@ -13,14 +13,15 @@ longer "unresolved". Mitigated threats appear as warning.
 
 ```
 Arguments:
-  -H, --url string           Management URL (e.g. https://your-site.sentinelone.net) (env:SENTINELONE_URL)
-  -T, --token string         API AuthToken (env:SENTINELONE_TOKEN)
-      --site string          Only list threats belonging to a named site
-      --ignore-in-progress   Ignore threats, where the incident status is in-progress
-  -t, --timeout int          Abort the check after n seconds (default 30)
-  -d, --debug                Enable debug mode
-  -v, --verbose              Enable verbose mode
-  -V, --version              Print version and exit
+  -H, --url string             Management URL (e.g. https://your-site.sentinelone.net) (env:SENTINELONE_URL)
+  -T, --token string           API AuthToken (env:SENTINELONE_TOKEN)
+      --site string            Only list threats belonging to a named site
+      --ignore-in-progress     Ignore threats, where the incident status is in-progress
+      --computer-name string   Only list threats belonging to the specified computer name
+  -t, --timeout int            Abort the check after n seconds (default 30)
+  -d, --debug                  Enable debug mode
+  -v, --verbose                Enable verbose mode
+  -V, --version                Print version and exit
 ```
 
 ## Example
