@@ -140,9 +140,11 @@ func (c *Config) Run() (rc int, output string, err error) {
 
 	// Add summary on top
 	output = fmt.Sprintf("%d threats found, %d not mitigated\n", total, notMitigated) + output
-	if c.SiteName != "" {
+	if (c.SiteName != "" && c.ComputerName == "") {
 		output = fmt.Sprintf("site %s - ", c.SiteName) + output
-	}
+	} else if (c.ComputerName != ""){
+		output = fmt.Sprintf("Computer %s - ", c.ComputerName) + output
+        }
 
 	// Add perfdata
 	output += "|"
