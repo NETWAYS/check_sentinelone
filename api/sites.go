@@ -18,7 +18,7 @@ type SiteResult struct {
 }
 
 func (c *Client) GetSites(values url.Values) (data []*Site, err error) {
-	req, err := c.NewRequest("GET", "v2.1/sites?"+values.Encode(), nil)
+	req, err := c.NewRequest("GET", "v2.1/sites?state=active&"+values.Encode(), nil)
 	if err != nil {
 		return
 	}
