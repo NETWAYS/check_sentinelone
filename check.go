@@ -16,6 +16,7 @@ type Config struct {
 	AuthToken        string
 	IgnoreInProgress bool
 	SiteName         string
+	ComputerName     string
 }
 
 func BuildConfigFlags(fs *pflag.FlagSet) (config *Config) {
@@ -29,6 +30,9 @@ func BuildConfigFlags(fs *pflag.FlagSet) (config *Config) {
 
 	fs.BoolVar(&config.IgnoreInProgress, "ignore-in-progress", false,
 		"Ignore threats, where the incident status is in-progress")
+
+	fs.StringVar(&config.ComputerName, "computer-name", "",
+		"Only list threats belonging to the specified computer name")
 
 	return
 }
@@ -75,6 +79,10 @@ func (c *Config) Run() (rc int, output string, err error) {
 		}
 
 		values.Set("siteIds", siteId)
+	}
+
+	if c.ComputerName != "" {
+		values.Set("computerName__contains", c.ComputerName)
 	}
 
 	threats, err := client.GetThreats(values)
@@ -132,9 +140,11 @@ func (c *Config) Run() (rc int, output string, err error) {
 
 	// Add summary on top
 	output = fmt.Sprintf("%d threats found, %d not mitigated\n", total, notMitigated) + output
-	if c.SiteName != "" {
+	if (c.SiteName != "" && c.ComputerName == "") {
 		output = fmt.Sprintf("site %s - ", c.SiteName) + output
-	}
+	} else if (c.ComputerName != ""){
+		output = fmt.Sprintf("Computer %s - ", c.ComputerName) + output
+        }
 
 	// Add perfdata
 	output += "|"
@@ -154,6 +164,7 @@ func (c *Config) Run() (rc int, output string, err error) {
 func lookupSiteId(client *api.Client, name string) (id string, err error) {
 	params := url.Values{}
 	params.Set("name", name)
+	params.Set("state", "active")
 
 	sites, err := client.GetSites(params)
 	if err != nil {
