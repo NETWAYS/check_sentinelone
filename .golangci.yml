@@ -4,7 +4,6 @@ run:
 linters:
   disable-all: false
   enable:
-    #- funlen
     - dogsled
     - dupl
     - lll
@@ -12,8 +11,8 @@ linters:
     - wsl
   disable:
     - noctx
+    - musttag
   presets:
     - bugs
     - unused
-    # - style
   fast: false
