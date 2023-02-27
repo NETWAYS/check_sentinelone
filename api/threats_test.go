@@ -3,9 +3,9 @@ package api_test
 import (
 	"github.com/jarcoal/httpmock"
 	"github.com/stretchr/testify/assert"
-	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
 	"testing"
 )
 
@@ -15,7 +15,7 @@ func TestClient_GetThreats(t *testing.T) {
 
 	httpmock.RegisterResponder("GET", "https://euce1-test.sentinelone.net/web/api/v2.1/threats",
 		func(req *http.Request) (*http.Response, error) {
-			data, err := ioutil.ReadFile("testdata/threats.json")
+			data, err := os.ReadFile("testdata/threats.json")
 			assert.NoError(t, err)
 
 			return httpmock.NewBytesResponse(200, data), nil

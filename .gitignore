@@ -3,3 +3,6 @@
 /build/
 check_sentinelone
 .env*
+
+coverage.html
+coverage.out

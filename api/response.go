@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	log "github.com/sirupsen/logrus"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 )
@@ -46,7 +46,7 @@ func (c *Client) GetJSONResponse(req *http.Request) (data *ResponseBody, err err
 	}
 
 	// read response body
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		err = fmt.Errorf("could not retrieve response body: %w", err)
 		return
