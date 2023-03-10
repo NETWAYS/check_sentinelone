@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/pflag"
 	"net/url"
 	"os"
+	"strings"
 )
 
 type Config struct {
@@ -111,8 +112,10 @@ func (c *Config) Run() (rc int, output string, err error) {
 		byLocation[index] = append(byLocation[index], threat)
 	}
 
+	var sb strings.Builder
+
 	for index, list := range byLocation {
-		output += fmt.Sprintf("\n## %s\n\n", index)
+		sb.WriteString(fmt.Sprintf("\n## %s\n\n", index))
 
 		for _, threat := range list {
 			var stateText string
@@ -127,29 +130,31 @@ func (c *Config) Run() (rc int, output string, err error) {
 				stateText = "WARNING"
 			}
 
-			output += fmt.Sprintf("[%s] [%s] %s: (%s) %s (%s)\n",
+			sb.WriteString(fmt.Sprintf("[%s] [%s] %s: (%s) %s (%s)\n",
 				threat.ThreatInfo.CreatedAt.Local().Format("2006-01-02 15:04 MST"),
 				stateText,
 				threat.AgentRealtimeInfo.AgentComputerName,
 				threat.ThreatInfo.Classification,
 				threat.ThreatInfo.ThreatName,
 				threat.ThreatInfo.MitigationStatusDescription,
-			)
+			))
 		}
 	}
 
 	// Add summary on top
-	output = fmt.Sprintf("%d threats found, %d not mitigated\n", total, notMitigated) + output
+	sb.WriteString(fmt.Sprintf("%d threats found, %d not mitigated\n", total, notMitigated) + sb.String())
+
 	if c.SiteName != "" && c.ComputerName == "" {
-		output = fmt.Sprintf("site %s - ", c.SiteName) + output
+		sb.WriteString(fmt.Sprintf("site %s - ", c.SiteName) + sb.String())
 	} else if c.ComputerName != "" {
-		output = fmt.Sprintf("Computer %s - ", c.ComputerName) + output
+		sb.WriteString(fmt.Sprintf("Computer %s - ", c.ComputerName) + sb.String())
 	}
 
 	// Add perfdata
-	output += "|"
-	output += fmt.Sprintf(" threats=%d", total)
-	output += fmt.Sprintf(" threats_not_mitigated=%d", notMitigated)
+	sb.WriteString("|")
+	sb.WriteString(fmt.Sprintf(" threats=%d", total))
+	sb.WriteString(fmt.Sprintf(" threats_not_mitigated=%d", notMitigated))
+	output = sb.String()
 
 	// determine final state
 	if notMitigated > 0 {
