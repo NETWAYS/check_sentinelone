@@ -3,7 +3,7 @@ module github.com/NETWAYS/check_sentinelone
 go 1.19
 
 require (
-	github.com/NETWAYS/go-check v0.4.1
+	github.com/NETWAYS/go-check v0.4.2
 	github.com/jarcoal/httpmock v1.3.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/pflag v1.0.5
