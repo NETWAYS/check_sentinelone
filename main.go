@@ -36,5 +36,5 @@ func main() {
 		check.ExitError(err)
 	}
 
-	check.Exit(rc, output)
+	check.ExitRaw(rc, output)
 }

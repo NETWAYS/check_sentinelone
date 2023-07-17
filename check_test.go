@@ -13,7 +13,7 @@ func TestMain_ConnectionRefused(t *testing.T) {
 	out, _ := cmd.CombinedOutput()
 
 	actual := string(out)
-	expected := "UNKNOWN - url and token are required"
+	expected := "[UNKNOWN] - url and token are required"
 
 	if !strings.Contains(actual, expected) {
 		t.Error("\nActual: ", actual, "\nExpected: ", expected)
@@ -36,7 +36,7 @@ func TestMainCmd(t *testing.T) {
 				w.Write([]byte(`{"foo}`))
 			})),
 			args:     []string{"run", "./...", "-T", "test", "--url"},
-			expected: "UNKNOWN - could not decode JSON from body",
+			expected: "[UNKNOWN] - could not decode JSON from body",
 		},
 		{
 			name: "empty-response",
@@ -45,7 +45,7 @@ func TestMainCmd(t *testing.T) {
 				w.Write([]byte(`{"data" : [ {"id": "c86dc437", "name": "test1"}], "pagination": { "nextCursor": null, "totalItems": 2}}`))
 			})),
 			args:     []string{"run", "./...", "-T", "test", "--url"},
-			expected: "WARNING -",
+			expected: "[WARNING] -",
 		},
 	}
 
