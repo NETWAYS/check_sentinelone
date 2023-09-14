@@ -23,13 +23,12 @@ along with this program.  If not, see [gnu.org/licenses](https://www.gnu.org/lic
 
 // nolint: gochecknoglobals
 var (
-	// These get filled at build time with the proper vaules
+	// These get filled at build time with the proper vaules.
 	version = "development"
 	commit  = "HEAD"
 	date    = "latest"
 )
 
-//goland:noinspection GoBoolExpressions
 func buildVersion() string {
 	result := version
 

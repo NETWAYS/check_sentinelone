@@ -1,15 +1,16 @@
 package api
 
 import (
-	log "github.com/sirupsen/logrus"
 	"net/http"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type LoggingRoundTripper struct {
 	Base http.RoundTripper
 }
 
-// Prepare custom client that using a logging transport
+// Prepare custom client that using a logging transport.
 func NewLoggingHTTPClient() *http.Client {
 	client := *http.DefaultClient
 	client.Transport = LoggingRoundTripper{http.DefaultTransport}

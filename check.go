@@ -3,13 +3,14 @@ package main
 import (
 	"errors"
 	"fmt"
+	"net/url"
+	"os"
+	"strings"
+
 	"github.com/NETWAYS/check_sentinelone/api"
 	"github.com/NETWAYS/go-check"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
-	"net/url"
-	"os"
-	"strings"
 )
 
 type Config struct {
@@ -46,17 +47,14 @@ func (c *Config) SetFromEnv() {
 	if c.AuthToken == "" {
 		c.AuthToken = os.Getenv("SENTINELONE_TOKEN")
 	}
-
-	return
 }
 
-func (c *Config) Validate() (err error) {
+func (c *Config) Validate() error {
 	if c.ManagementURL == "" || c.AuthToken == "" {
-		err = errors.New("url and token are required")
-		return
+		return errors.New("url and token are required")
 	}
 
-	return
+	return nil
 }
 
 func (c *Config) Run() (rc int, output string, err error) {
@@ -72,14 +70,14 @@ func (c *Config) Run() (rc int, output string, err error) {
 	}
 
 	if c.SiteName != "" {
-		var siteId string
+		var siteID string
 
-		siteId, err = lookupSiteId(client, c.SiteName)
+		siteID, err = lookupSiteID(client, c.SiteName)
 		if err != nil {
 			return
 		}
 
-		values.Set("siteIds", siteId)
+		values.Set("siteIDs", siteID)
 	}
 
 	if c.ComputerName != "" {
@@ -131,6 +129,7 @@ func (c *Config) Run() (rc int, output string, err error) {
 			}
 
 			sb.WriteString(fmt.Sprintf("[%s] [%s] %s: (%s) %s (%s)\n",
+				// nolint: gosmopolitan
 				threat.ThreatInfo.CreatedAt.Local().Format("2006-01-02 15:04 MST"),
 				stateText,
 				threat.AgentRealtimeInfo.AgentComputerName,
@@ -141,7 +140,7 @@ func (c *Config) Run() (rc int, output string, err error) {
 		}
 	}
 
-	// Add summary on top
+	// Add summary on top.
 	sb.WriteString(fmt.Sprintf("%d threats found, %d not mitigated\n", total, notMitigated) + sb.String())
 
 	if c.SiteName != "" && c.ComputerName == "" {
@@ -150,13 +149,13 @@ func (c *Config) Run() (rc int, output string, err error) {
 		sb.WriteString(fmt.Sprintf("Computer %s - ", c.ComputerName) + sb.String())
 	}
 
-	// Add perfdata
+	// Add perfdata.
 	sb.WriteString("|")
 	sb.WriteString(fmt.Sprintf(" threats=%d", total))
 	sb.WriteString(fmt.Sprintf(" threats_not_mitigated=%d", notMitigated))
 	output = sb.String()
 
-	// determine final state
+	// determine final state.
 	if notMitigated > 0 {
 		rc = check.Critical
 	} else if total > 0 {
@@ -166,7 +165,7 @@ func (c *Config) Run() (rc int, output string, err error) {
 	return
 }
 
-func lookupSiteId(client *api.Client, name string) (id string, err error) {
+func lookupSiteID(client *api.Client, name string) (id string, err error) {
 	params := url.Values{}
 	params.Set("name", name)
 	params.Set("state", "active")

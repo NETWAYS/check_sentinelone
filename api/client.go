@@ -2,17 +2,18 @@ package api
 
 import (
 	"fmt"
-	"golang.org/x/oauth2/clientcredentials"
 	"io"
 	"net/http"
 	"time"
+
+	"golang.org/x/oauth2/clientcredentials"
 )
 
 const DefaultTimeout = 5
 
 type Client struct {
 	AuthConfig    *clientcredentials.Config
-	HttpClient    *http.Client
+	HTTPClient    *http.Client
 	ManagementURL string
 	AuthToken     string
 }
@@ -23,13 +24,15 @@ func NewClient(url, token string) (c *Client) {
 		AuthToken:     token,
 	}
 
-	c.HttpClient = NewLoggingHTTPClient()
-	c.HttpClient.Timeout = time.Duration(DefaultTimeout) * time.Second
+	c.HTTPClient = NewLoggingHTTPClient()
+	c.HTTPClient.Timeout = time.Duration(DefaultTimeout) * time.Second
 
 	return
 }
 
 func (c *Client) NewRequest(method, url string, body io.Reader) (req *http.Request, err error) {
+	// nolint: noctx
+	// TODO Add context
 	req, err = http.NewRequest(method, c.ManagementURL+"/web/api/"+url, body)
 	if err != nil {
 		err = fmt.Errorf("could not create http request: %w", err)
@@ -41,7 +44,7 @@ func (c *Client) NewRequest(method, url string, body io.Reader) (req *http.Reque
 }
 
 func (c *Client) Do(req *http.Request) (res *http.Response, err error) {
-	res, err = c.HttpClient.Do(req)
+	res, err = c.HTTPClient.Do(req)
 	if err != nil {
 		err = fmt.Errorf("HTTP request failed: %w", err)
 	}

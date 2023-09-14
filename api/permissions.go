@@ -9,10 +9,11 @@ import (
 type UserInfo struct {
 	ID       string            `json:"id"`
 	IDType   string            `json:"idType"`
-	ApiHosts map[string]string `json:"apiHosts"`
+	APIHosts map[string]string `json:"apiHosts"`
 }
 
 func (c *Client) CheckViewer() (ok bool, err error) {
+	// nolint: noctx
 	req, err := c.NewRequest(http.MethodGet, "v2.1/users/viewer-auth-check", nil)
 	if err != nil {
 		return

@@ -36,9 +36,7 @@ func (c *Client) GetSites(values url.Values) (data []*Site, err error) {
 			return
 		}
 
-		for _, site := range p.Sites {
-			data = append(data, site)
-		}
+		data = append(data, p.Sites...)
 	}
 
 	return

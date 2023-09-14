@@ -37,6 +37,7 @@ type ThreatInfo struct {
 }
 
 func (c *Client) GetThreats(values url.Values) (threats []*Threat, err error) {
+	// nolint: noctx
 	req, err := c.NewRequest("GET", "v2.1/threats?"+values.Encode(), nil)
 	if err != nil {
 		return

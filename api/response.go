@@ -3,18 +3,19 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	log "github.com/sirupsen/logrus"
 	"io"
 	"net/http"
 	"net/url"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type ResponseBody struct {
 	Data       json.RawMessage `json:"data"`
 	Pagination *Pagination     `json:"pagination"`
-	// Seems to be only used with errors
+	// Seems to be only used with errors.
 	Name string `json:"name"`
-	// Seems to be only used with errors
+	// Seems to be only used with errors.
 	Message string           `json:"message"`
 	Error   *JSONErrorObject `json:"error"`
 	Errors  []JSONError      `json:"errors"`
@@ -45,7 +46,7 @@ func (c *Client) GetJSONResponse(req *http.Request) (data *ResponseBody, err err
 		return
 	}
 
-	// read response body
+	// read response body.
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		err = fmt.Errorf("could not retrieve response body: %w", err)
@@ -54,11 +55,11 @@ func (c *Client) GetJSONResponse(req *http.Request) (data *ResponseBody, err err
 
 	res.Body.Close()
 
-	// Try to parse json
+	// Try to parse json.
 	data = &ResponseBody{}
 	err = json.Unmarshal(body, data)
 
-	if res.StatusCode != 200 {
+	if res.StatusCode != http.StatusOK {
 		errInfo := ""
 
 		if data.Error != nil {
@@ -118,24 +119,23 @@ func (c *Client) GetJSONItems(request *http.Request) (items []json.RawMessage, e
 			return
 		}
 
-		// retrieve items from response
+		// retrieve items from response.
 		var dataItems []json.RawMessage
 
 		err = json.Unmarshal(response.Data, &dataItems)
 		if err != nil {
-			// Fall back to adding response.Data to the item list
-			// This is useful when data is not an array, but an object
+			// Fall back to adding response.Data to the item list.
+			// This is useful when data is not an array, but an object.
 			err = nil
 
 			items = append(items, response.Data)
 		} else {
-			// append each item to overall list
-			for _, item := range dataItems {
-				items = append(items, item)
-			}
+			// append each item to overall list.
+			items = append(items, dataItems...)
 		}
 
-		// set nextCursor or break iteration when done
+		// set nextCursor or break iteration when done.
+		// nolint: gocritic
 		if response.Pagination.NextCursor == "" {
 			break
 		} else if response.Pagination.NextCursor == nextCursor {
