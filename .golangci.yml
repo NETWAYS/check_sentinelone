@@ -34,3 +34,4 @@ linters-settings:
      suggest-new: true
    funlen:
      lines: 80
+     statements: 45
