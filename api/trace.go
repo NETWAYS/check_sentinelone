@@ -2,8 +2,6 @@ package api
 
 import (
 	"net/http"
-
-	log "github.com/sirupsen/logrus"
 )
 
 type LoggingRoundTripper struct {
@@ -19,11 +17,6 @@ func NewLoggingHTTPClient() *http.Client {
 }
 
 func (r LoggingRoundTripper) RoundTrip(req *http.Request) (res *http.Response, err error) {
-	log.WithFields(log.Fields{
-		"url":    req.URL,
-		"method": req.Method,
-	}).Debug("executing http request")
-
 	res, err = r.Base.RoundTrip(req)
 
 	return

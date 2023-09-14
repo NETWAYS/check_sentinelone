@@ -6,8 +6,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-
-	log "github.com/sirupsen/logrus"
 )
 
 type ResponseBody struct {
@@ -70,18 +68,6 @@ func (c *Client) GetJSONResponse(req *http.Request) (data *ResponseBody, err err
 
 		for _, e := range data.Errors {
 			errInfo += fmt.Sprintf(" - %s: %s", e.Title, e.Detail)
-		}
-
-		if err == nil {
-			log.WithFields(log.Fields{
-				"status": res.StatusCode,
-				"errors": data.Errors,
-			}).Debug("HTTP returned non-ok result")
-		} else {
-			log.WithFields(log.Fields{
-				"status": res.StatusCode,
-				"body":   string(body),
-			}).Debug("HTTP returned non-ok result without JSON info")
 		}
 
 		err = fmt.Errorf("HTTP request returned non-ok status %s%s", res.Status, errInfo)

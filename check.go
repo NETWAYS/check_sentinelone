@@ -9,7 +9,6 @@ import (
 
 	"github.com/NETWAYS/check_sentinelone/api"
 	"github.com/NETWAYS/go-check"
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 )
 
@@ -180,7 +179,6 @@ func lookupSiteID(client *api.Client, name string) (id string, err error) {
 		err = fmt.Errorf("could not find a site named '%s'", name)
 	case 1:
 		id = sites[0].ID
-		log.WithField("id", id).Debug("found site")
 	default:
 		err = fmt.Errorf("more than one site matches '%s'", name)
 	}
