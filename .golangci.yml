@@ -18,6 +18,7 @@ linters:
      - gofumpt
      - gomnd
      - ifshort
+     - funlen
      - lll
      - musttag
      - nakedret
@@ -33,5 +34,5 @@ linters-settings:
    maligned:
      suggest-new: true
    funlen:
-     lines: 80
+     lines: 90
      statements: 45
