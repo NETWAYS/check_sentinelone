@@ -17,17 +17,18 @@ builds:
         -X main.commit={{.Commit}}
         -X main.date={{.CommitDate}}
 release:
+  draft: true
   github:
     owner: NETWAYS
     name: check_sentinelone
-  draft: true
 archives:
   - format: binary
-    replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      amd64: x86_64
+    name_template: >-
+      {{ .ProjectName }}_{{ .Tag }}_
+      {{- if eq .Os "linux" }}Linux{{ end }}
+      {{- if eq .Os "windows" }}Windows{{ end }}
+      {{- if eq .Os "darwin" }}Darwin{{ end }}
+      {{- if eq .Arch "amd64" }}_x86_64{{ end }}
 checksum:
   name_template: 'checksums.txt'
 snapshot:
