@@ -76,7 +76,7 @@ func (c *Config) Run() (rc int, output string, err error) {
 			return
 		}
 
-		values.Set("siteIDs", siteID)
+		values.Set("siteIds", siteID)
 	}
 
 	if c.ComputerName != "" {
