@@ -83,7 +83,7 @@ func (c *Config) Run() (rc int, output string, err error) {
 		values.Set("computerName__contains", c.ComputerName)
 	}
 
-	threats, err := client.GetThreats(values)
+	threats, err := client.GetThreats(values, c.ComputerName)
 	if err != nil {
 		return
 	}
