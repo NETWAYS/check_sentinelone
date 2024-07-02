@@ -1,6 +1,7 @@
 .*.sw[opa]
 *~
 /build/
+dist/
 check_sentinelone
 .env*
 
