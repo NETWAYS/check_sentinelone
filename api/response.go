@@ -127,9 +127,8 @@ func (c *Client) GetJSONItems(request *http.Request) (items []json.RawMessage, e
 		} else if response.Pagination.NextCursor == nextCursor {
 			err = fmt.Errorf("iteration error in pages, nextCursor is the same as before: %s", nextCursor)
 			return
-		} else {
-			nextCursor = response.Pagination.NextCursor
 		}
+		nextCursor = response.Pagination.NextCursor
 	}
 
 	return
