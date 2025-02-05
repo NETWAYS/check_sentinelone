@@ -6,7 +6,6 @@ linters:
    disable:
      - cyclop
      - depguard
-     - exhaustivestruct
      - exhaustruct
      - forbidigo
      - forcetypeassert
@@ -14,10 +13,9 @@ linters:
      - gochecknoglobals
      - gochecknoinits
      - godox
-     - goerr113
+     - err113
      - gofumpt
      - gomnd
-     - ifshort
      - funlen
      - lll
      - musttag
