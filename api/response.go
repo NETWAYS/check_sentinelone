@@ -40,6 +40,7 @@ type JSONError struct {
 
 func (c *Client) GetJSONResponse(req *http.Request) (data *ResponseBody, err error) {
 	res, err := c.Do(req)
+
 	if err != nil {
 		return
 	}
