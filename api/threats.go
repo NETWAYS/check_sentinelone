@@ -36,7 +36,7 @@ type ThreatInfo struct {
 	MitigationStatusDescription string    `json:"mitigationStatusDescription"`
 }
 
-func (c *Client) GetThreats(values url.Values) (threats []*Threat, err error) {
+func (c *Client) GetThreats(values url.Values, computername string) (threats []*Threat, err error) {
 	// nolint: noctx
 	req, err := c.NewRequest("GET", "v2.1/threats?"+values.Encode(), nil)
 	if err != nil {
@@ -55,7 +55,9 @@ func (c *Client) GetThreats(values url.Values) (threats []*Threat, err error) {
 		if err != nil {
 			return
 		}
-
+		if computername != "" && computername != t.AgentRealtimeInfo.AgentComputerName {
+			continue
+		}
 		threats = append(threats, t)
 	}
 
