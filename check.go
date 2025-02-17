@@ -20,6 +20,7 @@ type Config struct {
 	ComputerName     string
 	GroupID          string
 	GroupName        string
+	Cluster          string
 }
 
 func BuildConfigFlags(fs *pflag.FlagSet) (config *Config) {
@@ -35,6 +36,7 @@ func BuildConfigFlags(fs *pflag.FlagSet) (config *Config) {
 		"Only list threats belonging to the specified computer name")
 	fs.StringVar(&config.GroupID, "group-id", "", "List threats belonging to the specified groupID")
 	fs.StringVar(&config.GroupName, "group-name", "", "List threats belonging to the specified group name")
+	fs.StringVar(&config.Cluster, "cluster", "", "List threats belonging to one k8s cluster")
 
 	return
 }
@@ -84,7 +86,7 @@ func (c *Config) Run() (rc int, output string, err error) {
 		values.Set("computerName__contains", c.ComputerName)
 	}
 
-	threats, err := client.GetThreats(values, c.ComputerName, c.GroupID, c.GroupName)
+	threats, err := client.GetThreats(values, c.ComputerName, c.GroupID, c.GroupName, c.Cluster)
 	if err != nil {
 		return
 	}
@@ -148,6 +150,8 @@ func (c *Config) Run() (rc int, output string, err error) {
 		sb.WriteString(fmt.Sprintf("Computer %s - ", c.ComputerName) + sb.String())
 	} else if c.GroupID != "" {
 		sb.WriteString(fmt.Sprintf("Group %s - ", c.GroupID) + sb.String())
+	} else if c.Cluster != "" {
+		sb.WriteString(fmt.Sprintf("Cluster %s - ", c.Cluster) + sb.String())
 	}
 
 	// Add perfdata.
