@@ -9,6 +9,7 @@ import (
 type Threat struct {
 	AgentRealtimeInfo AgentRealtimeInfo `json:"agentRealtimeInfo"`
 	ThreatInfo        ThreatInfo        `json:"threatInfo"`
+	KubernetesInfo    KubernetesInfo    `json:"kubernetesInfo"`
 }
 
 type AgentRealtimeInfo struct {
@@ -20,6 +21,10 @@ type AgentRealtimeInfo struct {
 	GroupName         string `json:"groupName"`
 	AgentComputerName string `json:"agentComputerName"`
 	AgentDomain       string `json:"AgentDomain"`
+}
+
+type KubernetesInfo struct {
+	Cluster string `json:"cluster"`
 }
 
 type ThreatInfo struct {
@@ -36,7 +41,7 @@ type ThreatInfo struct {
 	MitigationStatusDescription string    `json:"mitigationStatusDescription"`
 }
 
-func (c *Client) GetThreats(values url.Values, computername string) (threats []*Threat, err error) {
+func (c *Client) GetThreats(values url.Values, computername string, groupID string, groupName string, cluster string) (threats []*Threat, err error) {
 	// nolint: noctx
 	req, err := c.NewRequest("GET", "v2.1/threats?"+values.Encode(), nil)
 	if err != nil {
@@ -57,7 +62,14 @@ func (c *Client) GetThreats(values url.Values, computername string) (threats []*
 		}
 		if computername != "" && computername != t.AgentRealtimeInfo.AgentComputerName {
 			continue
+		} else if groupID != "" && groupID != t.AgentRealtimeInfo.GroupID {
+			continue
+		} else if groupName != "" && groupName != t.AgentRealtimeInfo.GroupName {
+			continue
+		} else if cluster != "" && cluster != t.KubernetesInfo.Cluster {
+			continue
 		}
+
 		threats = append(threats, t)
 	}
 

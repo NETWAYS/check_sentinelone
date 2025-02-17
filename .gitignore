@@ -4,6 +4,8 @@
 dist/
 check_sentinelone
 .env*
+.vscode/
+launch.json
 
 coverage.html
 coverage.out
