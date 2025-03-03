@@ -1,13 +1,15 @@
 module github.com/NETWAYS/check_sentinelone
 
-go 1.22
+go 1.23.0
+
+toolchain go1.24.0
 
 require (
 	github.com/NETWAYS/go-check v0.6.2
 	github.com/jarcoal/httpmock v1.3.1
 	github.com/spf13/pflag v1.0.6
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/oauth2 v0.26.0
+	golang.org/x/oauth2 v0.27.0
 )
 
 require (
