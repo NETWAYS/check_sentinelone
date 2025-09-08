@@ -2,7 +2,6 @@ package api_test
 
 import (
 	"github.com/jarcoal/httpmock"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
 	"os"
@@ -16,20 +15,33 @@ func TestClient_GetThreats(t *testing.T) {
 	httpmock.RegisterResponder("GET", "https://euce1-test.sentinelone.net/web/api/v2.1/threats",
 		func(req *http.Request) (*http.Response, error) {
 			data, err := os.ReadFile("testdata/threats.json")
-			assert.NoError(t, err)
+			if err != nil {
+				t.Fatalf("expected no error, got %v", err)
+			}
 
 			return httpmock.NewBytesResponse(200, data), nil
 		})
 
 	threats, err := c.GetThreats(url.Values{})
-	assert.NoError(t, err)
-	assert.Len(t, threats, 1)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	if len(threats) != 1 {
+		t.Fatalf("expected threats to be of len 1")
+	}
+
 }
 
 func TestClient_GetThreats_Integration(t *testing.T) {
 	c := envClient(t)
 
 	threats, err := c.GetThreats(url.Values{})
-	assert.NoError(t, err)
-	assert.NotNil(t, threats)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	if threats == nil {
+		t.Fatalf("expected threats not being nil")
+	}
 }
