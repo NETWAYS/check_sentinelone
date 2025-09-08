@@ -2,7 +2,6 @@ package api_test
 
 import (
 	"github.com/jarcoal/httpmock"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"strings"
 	"testing"
@@ -68,10 +67,14 @@ func TestClient_GetJSONResponse(t *testing.T) {
 		})
 
 	req, err := c.NewRequest("GET", "v2.1/test", nil)
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
 
 	_, err = c.GetJSONResponse(req)
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
 }
 
 func TestClient_GetJSONResponse_Error(t *testing.T) {
@@ -84,10 +87,14 @@ func TestClient_GetJSONResponse_Error(t *testing.T) {
 		})
 
 	req, err := c.NewRequest("GET", "v2.1/test", nil)
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
 
 	_, err = c.GetJSONResponse(req)
-	assert.Error(t, err)
+	if err == nil {
+		t.Fatalf("expected error, got none")
+	}
 }
 
 func TestClient_GetJSONItems(t *testing.T) {
@@ -103,8 +110,12 @@ func TestClient_GetJSONItems(t *testing.T) {
 		})
 
 	req, err := c.NewRequest("GET", "v2.1/list", nil)
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
 
 	_, err = c.GetJSONItems(req)
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
 }

@@ -2,7 +2,6 @@ package api_test
 
 import (
 	"github.com/jarcoal/httpmock"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/url"
 	"os"
@@ -16,20 +15,32 @@ func TestClient_GetSites(t *testing.T) {
 	httpmock.RegisterResponder("GET", "https://euce1-test.sentinelone.net/web/api/v2.1/sites",
 		func(req *http.Request) (*http.Response, error) {
 			data, err := os.ReadFile("testdata/sites.json")
-			assert.NoError(t, err)
+			if err != nil {
+				t.Fatalf("expected no error, got %v", err)
+			}
 
 			return httpmock.NewBytesResponse(200, data), nil
 		})
 
 	sites, err := c.GetSites(url.Values{})
-	assert.NoError(t, err)
-	assert.Len(t, sites, 1)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	if len(sites) != 1 {
+		t.Fatalf("expected sites to be of len 1")
+	}
 }
 
 func TestClient_GetSites_Integration(t *testing.T) {
 	c := envClient(t)
 
 	sites, err := c.GetSites(url.Values{})
-	assert.NoError(t, err)
-	assert.NotNil(t, sites)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	if sites == nil {
+		t.Fatalf("expected sites not being nil")
+	}
 }

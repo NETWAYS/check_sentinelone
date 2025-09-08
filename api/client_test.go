@@ -3,7 +3,6 @@ package api_test
 import (
 	"github.com/NETWAYS/check_sentinelone/api"
 	"github.com/jarcoal/httpmock"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"os"
 	"testing"
@@ -34,18 +33,25 @@ func TestClient(t *testing.T) {
 
 	httpmock.RegisterResponder("GET", "https://euce1-test.sentinelone.net/web/api/v2.1/test",
 		func(req *http.Request) (*http.Response, error) {
-			body := map[string]interface{}{
+			body := map[string]any{
 				"data": map[string]string{"test": "test"},
 			}
 			return httpmock.NewJsonResponse(200, body)
 		})
 
 	req, err := c.NewRequest("GET", "v2.1/test", nil)
-	assert.NoError(t, err)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
 
 	res, err := c.Do(req)
-	assert.NoError(t, err)
-	assert.Equal(t, 200, res.StatusCode)
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+
+	if 200 != res.StatusCode {
+		t.Fatalf("expected %v, got %v", 200, res.StatusCode)
+	}
 
 	res.Body.Close()
 }
