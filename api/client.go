@@ -44,7 +44,7 @@ func (c *Client) NewRequest(method, url string, body io.Reader) (req *http.Reque
 }
 
 func (c *Client) Do(req *http.Request) (res *http.Response, err error) {
-	res, err = c.HTTPClient.Do(req)
+	res, err = c.HTTPClient.Do(req) //nolint: gosec
 	if err != nil {
 		err = fmt.Errorf("HTTP request failed: %w", err)
 	}

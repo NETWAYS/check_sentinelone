@@ -8,7 +8,7 @@ type LoggingRoundTripper struct {
 	Base http.RoundTripper
 }
 
-// Prepare custom client that using a logging transport.
+// NewLoggingHTTPClient prepares a custom client that using a logging transport.
 func NewLoggingHTTPClient() *http.Client {
 	client := *http.DefaultClient
 	client.Transport = LoggingRoundTripper{http.DefaultTransport}
