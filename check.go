@@ -112,7 +112,7 @@ func (c *Config) Run() (rc int, output string, err error) {
 	var sb strings.Builder
 
 	for index, list := range byLocation {
-		sb.WriteString(fmt.Sprintf("\n## %s\n\n", index))
+		fmt.Fprintf(&sb, "\n## %s\n\n", index)
 
 		for _, threat := range list {
 			var stateText string
@@ -127,7 +127,7 @@ func (c *Config) Run() (rc int, output string, err error) {
 				stateText = "WARNING"
 			}
 
-			sb.WriteString(fmt.Sprintf("[%s] [%s] %s: (%s) %s (%s)\n",
+			fmt.Fprintf(&sb, "[%s] [%s] %s: (%s) %s (%s)\n",
 				// nolint: gosmopolitan
 				threat.ThreatInfo.CreatedAt.Local().Format("2006-01-02 15:04 MST"),
 				stateText,
@@ -135,7 +135,7 @@ func (c *Config) Run() (rc int, output string, err error) {
 				threat.ThreatInfo.Classification,
 				threat.ThreatInfo.ThreatName,
 				threat.ThreatInfo.MitigationStatusDescription,
-			))
+			)
 		}
 	}
 
@@ -150,8 +150,8 @@ func (c *Config) Run() (rc int, output string, err error) {
 
 	// Add perfdata.
 	sb.WriteString("|")
-	sb.WriteString(fmt.Sprintf(" threats=%d", total))
-	sb.WriteString(fmt.Sprintf(" threats_not_mitigated=%d", notMitigated))
+	fmt.Fprintf(&sb, " threats=%d", total)
+	fmt.Fprintf(&sb, " threats_not_mitigated=%d", notMitigated)
 	output = sb.String()
 
 	// determine final state.

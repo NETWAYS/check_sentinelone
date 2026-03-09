@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 type ResponseBody struct {
@@ -58,19 +59,19 @@ func (c *Client) GetJSONResponse(req *http.Request) (data *ResponseBody, err err
 	err = json.Unmarshal(body, data)
 
 	if res.StatusCode != http.StatusOK {
-		errInfo := ""
+		var errInfo strings.Builder
 
 		if data.Error != nil {
 			for _, e := range data.Error.Errors {
-				errInfo += fmt.Sprintf(" - %s: %s", e.Title, e.Detail)
+				fmt.Fprintf(&errInfo, " - %s: %s", e.Title, e.Detail)
 			}
 		}
 
 		for _, e := range data.Errors {
-			errInfo += fmt.Sprintf(" - %s: %s", e.Title, e.Detail)
+			fmt.Fprintf(&errInfo, " - %s: %s", e.Title, e.Detail)
 		}
 
-		err = fmt.Errorf("HTTP request returned non-ok status %s%s", res.Status, errInfo)
+		err = fmt.Errorf("HTTP request returned non-ok status %s%s", res.Status, errInfo.String())
 
 		return
 	}
