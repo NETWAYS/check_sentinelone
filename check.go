@@ -70,6 +70,7 @@ func (c *Config) Run() (*result.PartialResult, error) {
 	}
 
 	resultPr := result.NewPartialResult()
+
 	if c.SiteName != "" {
 		var siteID string
 
@@ -152,6 +153,7 @@ func (c *Config) Run() (*result.PartialResult, error) {
 
 	// Add perfdata.
 	resultPr.SetOutput(sb.String())
+
 	pdThreads := check.Perfdata{
 		Label: "threats",
 		Value: total,
@@ -165,12 +167,12 @@ func (c *Config) Run() (*result.PartialResult, error) {
 	resultPr.AddPerfdata(&pdThreadsNotMitigated)
 
 	// determine final state.
+	resultPr.SetDefaultState(check.OK)
+
 	if notMitigated > 0 {
 		resultPr.SetState(check.Critical)
 	} else if total > 0 {
 		resultPr.SetState(check.Warning)
-	} else {
-		resultPr.SetState(check.OK)
 	}
 
 	return resultPr, nil
