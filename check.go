@@ -9,6 +9,7 @@ import (
 
 	"github.com/NETWAYS/check_sentinelone/api"
 	"github.com/NETWAYS/go-check"
+	"github.com/NETWAYS/go-check/result"
 	"github.com/spf13/pflag"
 )
 
@@ -56,7 +57,7 @@ func (c *Config) Validate() error {
 	return nil
 }
 
-func (c *Config) Run() (rc int, output string, err error) {
+func (c *Config) Run() (*result.PartialResult, error) {
 	client := api.NewClient(c.ManagementURL, c.AuthToken)
 
 	values := url.Values{}
@@ -68,12 +69,13 @@ func (c *Config) Run() (rc int, output string, err error) {
 		values.Set("resolved", "false")
 	}
 
+	resultPr := result.NewPartialResult()
 	if c.SiteName != "" {
 		var siteID string
 
-		siteID, err = lookupSiteID(client, c.SiteName)
+		siteID, err := lookupSiteID(client, c.SiteName)
 		if err != nil {
-			return
+			return resultPr, err
 		}
 
 		values.Set("siteIds", siteID)
@@ -85,7 +87,7 @@ func (c *Config) Run() (rc int, output string, err error) {
 
 	threats, err := client.GetThreats(values)
 	if err != nil {
-		return
+		return resultPr, err
 	}
 
 	var (
@@ -149,19 +151,29 @@ func (c *Config) Run() (rc int, output string, err error) {
 	}
 
 	// Add perfdata.
-	sb.WriteString("|")
-	fmt.Fprintf(&sb, " threats=%d", total)
-	fmt.Fprintf(&sb, " threats_not_mitigated=%d", notMitigated)
-	output = sb.String()
+	resultPr.SetOutput(sb.String())
+	pdThreads := check.Perfdata{
+		Label: "threats",
+		Value: total,
+	}
+	resultPr.AddPerfdata(&pdThreads)
+
+	pdThreadsNotMitigated := check.Perfdata{
+		Label: "threats_not_mitigated",
+		Value: notMitigated,
+	}
+	resultPr.AddPerfdata(&pdThreadsNotMitigated)
 
 	// determine final state.
 	if notMitigated > 0 {
-		rc = check.Critical
+		resultPr.SetState(check.Critical)
 	} else if total > 0 {
-		rc = check.Warning
+		resultPr.SetState(check.Warning)
+	} else {
+		resultPr.SetState(check.OK)
 	}
 
-	return
+	return resultPr, nil
 }
 
 func lookupSiteID(client *api.Client, name string) (id string, err error) {
