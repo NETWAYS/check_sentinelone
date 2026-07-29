@@ -1,6 +1,6 @@
 module github.com/NETWAYS/check_sentinelone
 
-go 1.25.0
+go 1.26
 
 require (
 	github.com/NETWAYS/go-check v1.0.0
