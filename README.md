@@ -28,23 +28,21 @@ Arguments:
 
 ```
 $ check_sentinelone --url https://your-site.sentinelone.net --token secret --site Customer
-CRITICAL - site Customer - 13 threats found, 3 not mitigated
 
-## Your Account / Customer / Default Group
-
-[2020-08-12 12:59 CEST] [WARNING] fileserver: (Downloader) PDFCreator-1_9_4-setup.exe (Marked as benign)
-[2020-07-03 08:23 CEST] [WARNING] fileserver: (PUA) cdbxp_setup_4.5.7.6321.exe (Mitigated)
-[2020-07-02 23:12 CEST] [WARNING] fileserver: (Trojan) 2-1.exe (Mitigated)
-[2020-07-02 23:12 CEST] [WARNING] fileserver: (Trojan) 4-0.exe (Mitigated)
-[2020-07-02 23:12 CEST] [WARNING] fileserver: (Trojan) 7-0.exe (Mitigated)
-[2020-07-02 23:12 CEST] [WARNING] fileserver: (Trojan) 13-0.exe (Mitigated)
-[2020-07-02 23:12 CEST] [WARNING] fileserver: (Trojan) 1-0.exe (Mitigated)
-[2020-07-02 23:12 CEST] [WARNING] fileserver: (Trojan) 14-0.exe (Mitigated)
-[2020-07-02 23:12 CEST] [WARNING] fileserver: (Trojan) 12-0.exe (Mitigated)
-[2020-07-02 22:05 CEST] [CRITICAL] fileserver: (Adware) cdbxp_setup_4.5.8.7035.exe (Not mitigated)
-[2020-07-02 22:05 CEST] [WARNING] fileserver: (Adware) cdbxp_setup_4-{DFBDE0DF-DBEC-4437-A6D6-76CD670E9503}-v297222.exe (Mitigated)
-[2020-07-02 21:58 CEST] [CRITICAL] fileserver: (Adware) cdbxp_setup_4.5.8.7035.exe (Not mitigated)
-[2020-07-02 21:58 CEST] [CRITICAL] fileserver: (Adware) cdbxp_setup_4.5.8.7035.exe (Not mitigated)
+[CRITICAL] - site Customer - 13 threats found, 3 not mitigated
+\_ [WARNING] fileserver: (Downloader) PDFCreator-1_9_4-setup.exe (Marked as benign)
+\_ [WARNING] fileserver: (PUA) cdbxp_setup_4.5.7.6321.exe (Mitigated)
+\_ [WARNING] fileserver: (Trojan) 2-1.exe (Mitigated)
+\_ [WARNING] fileserver: (Trojan) 4-0.exe (Mitigated)
+\_ [WARNING] fileserver: (Trojan) 7-0.exe (Mitigated)
+\_ [WARNING] fileserver: (Trojan) 13-0.exe (Mitigated)
+\_ [WARNING] fileserver: (Trojan) 1-0.exe (Mitigated)
+\_ [WARNING] fileserver: (Trojan) 14-0.exe (Mitigated)
+\_ [WARNING] fileserver: (Trojan) 12-0.exe (Mitigated)
+\_ [CRITICAL] fileserver: (Adware) cdbxp_setup_4.5.8.7035.exe (Not mitigated)
+\_ [WARNING] fileserver: (Adware) cdbxp_setup_4-{DFBDE0DF-DBEC-4437-A6D6-76CD670E9503}-v297222.exe (Mitigated)
+\_ [CRITICAL] fileserver: (Adware) cdbxp_setup_4.5.8.7035.exe (Not mitigated)
+\_ [CRITICAL] fileserver: (Adware) cdbxp_setup_4.5.8.7035.exe (Not mitigated)
 | threats=13 threats_not_mitigated=3
 ```
 
@@ -57,7 +55,6 @@ This is only available for customers as fair as we know.
 ## License
 
 Copyright (c) 2020 [NETWAYS GmbH](mailto:info@netways.de) \
-Copyright (c) 2020 [Markus Frosch](mailto:markus.frosch@netways.de)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

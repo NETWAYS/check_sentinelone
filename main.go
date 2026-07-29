@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/NETWAYS/go-check"
+	"github.com/NETWAYS/go-check/result"
 )
 
 const readme = `Check for threats on the SentinelOne Cloud service.
@@ -31,10 +32,13 @@ func main() {
 		check.ExitError(err)
 	}
 
-	rc, output, err := config.Run()
+	pr, err := config.Run()
 	if err != nil {
 		check.ExitError(err)
 	}
 
-	check.ExitRaw(rc, output)
+	overall := result.Overall{}
+	overall.AddSubcheck(pr)
+
+	check.Exit(overall.GetStatus(), overall.GetOutput())
 }
