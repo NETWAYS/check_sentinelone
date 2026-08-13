@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/NETWAYS/check_sentinelone/api"
 	"github.com/NETWAYS/go-check"
@@ -19,6 +20,7 @@ type Config struct {
 	IgnoreInProgress bool
 	SiteName         string
 	ComputerName     string
+	Timeout          time.Duration
 }
 
 func BuildConfigFlags(fs *pflag.FlagSet) (config *Config) {
@@ -58,7 +60,7 @@ func (c *Config) Validate() error {
 }
 
 func (c *Config) Run() (*result.PartialResult, error) {
-	client := api.NewClient(c.ManagementURL, c.AuthToken)
+	client := api.NewClient(c.ManagementURL, c.AuthToken, c.Timeout)
 
 	values := url.Values{}
 	values.Set("sortOrder", "desc")

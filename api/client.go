@@ -9,7 +9,7 @@ import (
 	"golang.org/x/oauth2/clientcredentials"
 )
 
-const DefaultTimeout = 5
+const DefaultTimeout = 5 * time.Second
 
 type Client struct {
 	AuthConfig    *clientcredentials.Config
@@ -18,14 +18,18 @@ type Client struct {
 	AuthToken     string
 }
 
-func NewClient(url, token string) (c *Client) {
+func NewClient(url, token string, timeout time.Duration) (c *Client) {
 	c = &Client{
 		ManagementURL: url,
 		AuthToken:     token,
 	}
 
+	if timeout <= 0 {
+		timeout = DefaultTimeout
+	}
+
 	c.HTTPClient = NewLoggingHTTPClient()
-	c.HTTPClient.Timeout = time.Duration(DefaultTimeout) * time.Second
+	c.HTTPClient.Timeout = timeout
 
 	return
 }

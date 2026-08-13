@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/NETWAYS/go-check"
 	"github.com/NETWAYS/go-check/result"
 )
@@ -26,6 +28,8 @@ func main() {
 	config := BuildConfigFlags(plugin.FlagSet)
 	plugin.ParseArguments()
 	config.SetFromEnv()
+
+	config.Timeout = time.Duration(plugin.Timeout) * time.Second
 
 	err := config.Validate()
 	if err != nil {
