@@ -16,13 +16,13 @@ func envClient(t *testing.T) *api.Client {
 		t.Skip("SENTINELONE_URL and SENTINELONE_TOKEN must be set!")
 	}
 
-	return api.NewClient(url, token)
+	return api.NewClient(url, token, 0)
 }
 
 func testClient() (*api.Client, func()) {
 	httpmock.Activate()
 
-	return api.NewClient("https://euce1-test.sentinelone.net", "test"), func() {
+	return api.NewClient("https://euce1-test.sentinelone.net", "test", 0), func() {
 		httpmock.DeactivateAndReset()
 	}
 }
