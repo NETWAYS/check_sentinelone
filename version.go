@@ -15,7 +15,6 @@ the Free Software Foundation, either version 3 of the License, or
 var (
 	version = "development"
 	commit  = "HEAD"
-	date    = "latest"
 )
 
 func buildVersion() string {
@@ -23,10 +22,6 @@ func buildVersion() string {
 
 	if commit != "" {
 		result = fmt.Sprintf("%s\ncommit: %s", result, commit)
-	}
-
-	if date != "" {
-		result = fmt.Sprintf("%s\ndate: %s", result, date)
 	}
 
 	result += "\n" + license
