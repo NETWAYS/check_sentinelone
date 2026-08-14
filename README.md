@@ -1,5 +1,4 @@
-check_sentinelone
-=================
+# check_sentinelone
 
 Check for threats on the SentinelOne Cloud service.
 

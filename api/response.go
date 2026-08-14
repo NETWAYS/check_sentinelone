@@ -122,7 +122,6 @@ func (c *Client) GetJSONItems(request *http.Request) (items []json.RawMessage, e
 		}
 
 		// set nextCursor or break iteration when done.
-		// nolint: gocritic
 		if response.Pagination.NextCursor == "" {
 			break
 		} else if response.Pagination.NextCursor == nextCursor {

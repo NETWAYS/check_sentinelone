@@ -35,8 +35,8 @@ func NewClient(url, token string, timeout time.Duration) (c *Client) {
 }
 
 func (c *Client) NewRequest(method, url string, body io.Reader) (req *http.Request, err error) {
+	// We use a general timeout for the entire client
 	// nolint: noctx
-	// TODO Add context
 	req, err = http.NewRequest(method, c.ManagementURL+"/web/api/"+url, body)
 	if err != nil {
 		err = fmt.Errorf("could not create http request: %w", err)
@@ -52,6 +52,24 @@ func (c *Client) Do(req *http.Request) (res *http.Response, err error) {
 	if err != nil {
 		err = fmt.Errorf("HTTP request failed: %w", err)
 	}
+
+	return
+}
+
+type LoggingRoundTripper struct {
+	Base http.RoundTripper
+}
+
+// NewLoggingHTTPClient prepares a custom client that using a logging transport.
+func NewLoggingHTTPClient() *http.Client {
+	client := *http.DefaultClient
+	client.Transport = LoggingRoundTripper{http.DefaultTransport}
+
+	return &client
+}
+
+func (r LoggingRoundTripper) RoundTrip(req *http.Request) (res *http.Response, err error) {
+	res, err = r.Base.RoundTrip(req)
 
 	return
 }
