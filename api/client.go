@@ -35,8 +35,8 @@ func NewClient(url, token string, timeout time.Duration) (c *Client) {
 }
 
 func (c *Client) NewRequest(method, url string, body io.Reader) (req *http.Request, err error) {
+	// We use a general timeout for the entire client
 	// nolint: noctx
-	// TODO Add context
 	req, err = http.NewRequest(method, c.ManagementURL+"/web/api/"+url, body)
 	if err != nil {
 		err = fmt.Errorf("could not create http request: %w", err)
