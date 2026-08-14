@@ -8,9 +8,9 @@ builds:
       - CGO_ENABLED=0
     goarch:
       - amd64
+      - arm64
     goos:
       - linux
-      - windows
       - darwin
     ldflags:
       - >-
@@ -22,17 +22,19 @@ release:
     owner: NETWAYS
     name: check_sentinelone
 archives:
-  - format: binary
+  - formats:
+    - binary
     name_template: >-
       {{ .ProjectName }}_{{ .Tag }}_
       {{- if eq .Os "linux" }}Linux{{ end }}
       {{- if eq .Os "windows" }}Windows{{ end }}
       {{- if eq .Os "darwin" }}Darwin{{ end }}
       {{- if eq .Arch "amd64" }}_x86_64{{ end }}
+      {{- if eq .Arch "arm64" }}_arm64{{ end }}
 checksum:
   name_template: 'checksums.txt'
 snapshot:
-  name_template: '{{ .Tag }}-SNAPSHOT-{{.ShortCommit}}'
+  version_template: '{{ .Tag }}-SNAPSHOT-{{.ShortCommit}}'
 changelog:
   sort: asc
   filters:
